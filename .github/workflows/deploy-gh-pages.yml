@@ -1,46 +1,64 @@
+# Deploy a GitHub Pages (Vite/React SPA)
+# Buenas prácticas: permisos mínimos, concurrencia, versiones fijas, verificación del build.
+# Para builds reproducibles: sube package-lock.json y cambia a "npm ci" + cache: 'npm' en setup-node.
+
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main, master]
 
+# Permisos mínimos necesarios para Pages (docs: deploy-pages)
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Evita despliegues simultáneos que puedan pisarse
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
-      - name: Install
+      - name: Install dependencies
         run: npm install
 
       - name: Build
         run: npm run build
 
-      - uses: actions/configure-pages@v4
+      - name: Verify build output
+        run: |
+          ls -la dist/
+          test -f dist/index.html || (echo "Missing dist/index.html" && exit 1)
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: dist
 
   deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
     steps:
-      - id: deployment
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
