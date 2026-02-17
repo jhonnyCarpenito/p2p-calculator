@@ -17,6 +17,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Plus, Copy, Trash2, Calculator, List } from 'lucide-react'
 import { formatPercent } from '@/lib/formatters'
 import { getDisplayTitle } from '@/types/analysis'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 export function CalculatorPage() {
   const {
@@ -54,10 +55,13 @@ export function CalculatorPage() {
       <div className="mx-auto max-w-4xl space-y-6 p-4">
         <header className="flex flex-wrap items-center justify-between gap-4">
           <h1 className="text-2xl font-semibold">P2P Trading Calculator</h1>
-          <Button onClick={handleNew}>
-            <Plus className="mr-2 h-4 w-4" />
-            Nuevo análisis
-          </Button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Button onClick={handleNew}>
+              <Plus className="mr-2 h-4 w-4" />
+              Nuevo análisis
+            </Button>
+          </div>
         </header>
         <Card className="border-dashed">
           <CardContent className="flex flex-col items-center justify-center py-16 text-center">
@@ -80,10 +84,13 @@ export function CalculatorPage() {
     <div className="mx-auto max-w-6xl space-y-6 p-4">
       <header className="flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-2xl font-semibold">P2P Trading Calculator</h1>
-        <Button onClick={handleNew}>
-          <Plus className="mr-2 h-4 w-4" />
-          Nuevo análisis
-        </Button>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <Button onClick={handleNew}>
+            <Plus className="mr-2 h-4 w-4" />
+            Nuevo análisis
+          </Button>
+        </div>
       </header>
 
       <Tabs
