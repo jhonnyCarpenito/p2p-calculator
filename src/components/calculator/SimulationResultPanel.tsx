@@ -22,7 +22,7 @@ export function SimulationResultPanel({ result }: SimulationResultPanelProps) {
           <div className="flex justify-between font-medium"><span>USDT final</span><span>{formatUsdt(result.finalUsdt)}</span></div>
           <Separator />
           <div className="flex justify-between items-center">
-            <span className="text-sm text-muted-foreground">Precio de compra de equilibrio</span>
+            <span className="text-sm text-muted-foreground">Precio de compra de equilibrio (sin beneficio ni pérdida)</span>
             <span className="rounded border px-2 py-0.5 text-xs sm:text-sm bg-muted/40">
               {formatCurrency(result.breakEvenBuyPrice)}
             </span>
