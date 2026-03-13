@@ -6,4 +6,5 @@ export interface SimulationResult {
   finalUsdt: number
   profitUsdt: number
   profitPercent: number
+  breakEvenBuyPrice: number
 }
