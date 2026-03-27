@@ -2,9 +2,19 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-interface PriceInputsProps { sellPrice: number; buyPrice: number; onSellPriceChange: (v: number) => void; onBuyPriceChange: (v: number) => void }
+interface PriceInputsProps {
+  sellPrice: number
+  buyPrice: number
+  onSellPriceChange: (v: number) => void
+  onBuyPriceChange: (v: number) => void
+}
 
-export function PriceInputs({ sellPrice, buyPrice, onSellPriceChange, onBuyPriceChange }: PriceInputsProps) {
+export function PriceInputs({
+  sellPrice,
+  buyPrice,
+  onSellPriceChange,
+  onBuyPriceChange,
+}: Readonly<PriceInputsProps>) {
   return (
     <Card>
       <CardHeader><CardTitle className="text-base">Precios de mercado</CardTitle></CardHeader>

@@ -7,4 +7,7 @@ export interface SimulationResult {
   profitUsdt: number
   profitPercent: number
   breakEvenBuyPrice: number
+  targetProfitPercent: number
+  targetBuyPrice: number
+  meetsTargetProfit: boolean
 }
