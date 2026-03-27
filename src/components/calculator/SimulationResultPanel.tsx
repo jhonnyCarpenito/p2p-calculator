@@ -69,13 +69,6 @@ export function SimulationResultPanel({
         </div>
         <Separator />
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-sm text-muted-foreground">Estado objetivo:</span>
-          <Badge variant={result.meetsTargetProfit ? 'success' : 'danger'} className="text-sm">
-            {result.meetsTargetProfit ? 'Cumple objetivo' : 'No cumple objetivo'}
-          </Badge>
-        </div>
-        <Separator />
-        <div className="flex flex-wrap items-center gap-2">
           <span className="text-sm text-muted-foreground">Beneficio:</span>
           <Badge variant={profitBadgeVariant} className="text-sm">
             {formatUsdt(result.profitUsdt)} ({formatPercent(result.profitPercent)})
