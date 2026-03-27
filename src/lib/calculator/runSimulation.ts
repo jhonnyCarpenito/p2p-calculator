@@ -1,11 +1,15 @@
-import type { Analysis } from '@/types/analysis'
+import { DEFAULT_TARGET_PROFIT_PERCENT, type Analysis } from '@/types/analysis'
 import type { SimulationResult } from '@/types/simulation'
 
 /**
  * Runs the P2P cycle simulation: USDT -> Fiat -> USDT.
  */
 export function runSimulation(analysis: Analysis): SimulationResult {
-  const { initialCapital, sellPrice, buyPrice, exchangeFee, bankFee } = analysis
+  const { initialCapital, sellPrice, buyPrice, targetProfitPercent, exchangeFee, bankFee } = analysis
+  const rawTargetProfitPercent = targetProfitPercent ?? DEFAULT_TARGET_PROFIT_PERCENT
+  const normalizedTargetProfitPercent = Number.isFinite(rawTargetProfitPercent)
+    ? Math.max(rawTargetProfitPercent, 0)
+    : DEFAULT_TARGET_PROFIT_PERCENT
 
   // --- Paso 1: ciclo actual (igual que antes) ---
   let grossFiat = initialCapital * sellPrice
@@ -51,6 +55,13 @@ export function runSimulation(analysis: Analysis): SimulationResult {
     breakEvenBuyPrice = 0
   }
 
+  const targetMultiplier = 1 + normalizedTargetProfitPercent / 100
+  let targetBuyPrice = targetMultiplier > 0 ? breakEvenBuyPrice / targetMultiplier : 0
+  if (!Number.isFinite(targetBuyPrice)) {
+    targetBuyPrice = 0
+  }
+  const meetsTargetProfit = targetBuyPrice > 0 && buyPrice <= targetBuyPrice
+
   return {
     grossFiat: initialCapital * sellPrice,
     netFiatAvailable,
@@ -60,5 +71,8 @@ export function runSimulation(analysis: Analysis): SimulationResult {
     profitUsdt,
     profitPercent,
     breakEvenBuyPrice,
+    targetProfitPercent: normalizedTargetProfitPercent,
+    targetBuyPrice,
+    meetsTargetProfit,
   }
 }

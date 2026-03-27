@@ -16,7 +16,7 @@ import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Plus, Copy, Trash2, Calculator, List } from 'lucide-react'
 import { formatPercent } from '@/lib/formatters'
-import { getDisplayTitle } from '@/types/analysis'
+import { DEFAULT_TARGET_PROFIT_PERCENT, getDisplayTitle } from '@/types/analysis'
 import { ThemeToggle } from '@/components/ThemeToggle'
 
 export function CalculatorPage() {
@@ -209,7 +209,11 @@ export function CalculatorPage() {
                 </div>
                 <div className="lg:sticky lg:top-4">
                   {result && (
-                    <SimulationResultPanel result={result} initialCapital={active.initialCapital} />
+                    <SimulationResultPanel
+                      result={result}
+                      targetProfitPercent={active.targetProfitPercent ?? DEFAULT_TARGET_PROFIT_PERCENT}
+                      onTargetProfitPercentChange={(v) => handleUpdate('targetProfitPercent', v)}
+                    />
                   )}
                 </div>
               </div>
